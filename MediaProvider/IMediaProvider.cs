@@ -9,5 +9,7 @@ namespace MediaProvider
     {
         void PlayMusic(string filename, Options options = Options.None);
         void StopAll();
+
+        ISpotify Spotify { get; }
     }
 }

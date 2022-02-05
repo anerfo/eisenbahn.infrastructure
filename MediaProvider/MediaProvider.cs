@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.IO;
 using System.Reflection;
+using MediaProvider.Extensions;
 
 namespace MediaProvider
 {
     public class MediaProvider : PluginManagerLibrary.PluginInterface, IMediaProvider
     {
         private List<WMPLib.WindowsMediaPlayer> _Musicplayers = new List<WMPLib.WindowsMediaPlayer>();
+        private SpotifyConfigControl _SpotifyConfigControl = null;
+        private Daten.DatenInterface _Data = null;
         private string BaseSearchPath;
-        
+        public ISpotify Spotify { get; private set; }
+
         public string beschreibung
         {
             get { return "Bietet Medien Services an"; }
@@ -31,7 +34,12 @@ namespace MediaProvider
 
         public void pluginStarten(PluginManagerLibrary.InterfaceFuerPlugins Referenz)
         {
-            
+            _Data = Referenz.getReferenceToObject("Daten.DatenInterface", this) as Daten.DatenInterface;
+            _SpotifyConfigControl = new SpotifyConfigControl(_Data);
+            Referenz.registerConfigControl(_SpotifyConfigControl);
+            var clientId = _Data.read_from_table("SpotifyData", 0);
+            var clientSecret = _Data.read_from_table("SpotifyData", 1).DecryptString();
+            Spotify = new SpotifyController(clientId, clientSecret);
         }
 
         public void pluginStoppen()
