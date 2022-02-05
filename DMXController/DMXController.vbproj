@@ -142,10 +142,9 @@
       <Name>Daten</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\DMXServer\DMXServer.vbproj">
-      <Project>{18C468E0-B4F0-4F26-AECF-D072DF9D0EAD}</Project>
-      <Name>DMXServer</Name>
-      <Private>False</Private>
+    <ProjectReference Include="..\DMXServerPlugin\DMXServerPlugin.vbproj">
+      <Project>{18c468e0-b4f0-4f26-aecf-d072df9d0ead}</Project>
+      <Name>DMXServerPlugin</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
