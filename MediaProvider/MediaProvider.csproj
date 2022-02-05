@@ -95,6 +95,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
     <Compile Include="Extensions\StringEncryptionExtensions.cs" />
     <Compile Include="IMediaProvider.cs" />
     <Compile Include="ISpotify.cs" />
