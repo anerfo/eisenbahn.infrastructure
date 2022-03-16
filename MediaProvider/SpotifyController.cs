@@ -31,11 +31,14 @@ namespace MediaProvider
 
         private void StartLogin()
         {
-            var loginRequest = new LoginRequest(_Server.BaseUri, _ClientId, LoginRequest.ResponseType.Code)
+            if (string.IsNullOrEmpty(_ClientId) == false)
             {
-                Scope = new[] { Scopes.UserModifyPlaybackState, Scopes.PlaylistReadPrivate }
-            };
-            StartBrowser(loginRequest.ToUri());
+                var loginRequest = new LoginRequest(_Server.BaseUri, _ClientId, LoginRequest.ResponseType.Code)
+                {
+                    Scope = new[] { Scopes.UserModifyPlaybackState, Scopes.PlaylistReadPrivate }
+                };
+                StartBrowser(loginRequest.ToUri());
+            }
         }
 
         private void StartBrowser(Uri uri)
