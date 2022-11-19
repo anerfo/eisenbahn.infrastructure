@@ -31,6 +31,7 @@ namespace Hue
 
         public bool InitializeRouter()
         {
+            return false;
             if (!string.IsNullOrEmpty(Settings.Default.BridgeApiKey))
             {
                 TryUpdateLights();
