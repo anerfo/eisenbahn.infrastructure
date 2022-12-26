@@ -7,6 +7,8 @@
     Private _dmxServer As DMXTCPClient = New DMXTCPClient()
     Private _dmxServerProcess As Process = Nothing
 
+    Private Const DisablePlugin As Boolean = True
+
     Public ReadOnly Property beschreibung As String Implements PluginManagerLibrary.PluginInterface.beschreibung
         Get
             Return "This plugin provides a server to access a DMX-Bus."
@@ -23,17 +25,19 @@
         Return {_dmxServer}
     End Function
 
-    Public Sub pluginStarten(ByVal Referenz As PluginManagerLibrary.InterfaceFuerPlugins) Implements PluginManagerLibrary.PluginInterface.pluginStarten
-        Dim serverPath As String = Strings.Left(System.Reflection.Assembly.GetEntryAssembly.Location, Strings.InStrRev(System.Reflection.Assembly.GetEntryAssembly.Location, "\")) & _cDMXServerFileName
-        If (System.IO.File.Exists(serverPath)) Then
-            If (Not System.Diagnostics.Process.GetProcessesByName("DMXServer.exe").Count > 0) Then
-                _dmxServerProcess = New Process
-                _dmxServerProcess.StartInfo.FileName = serverPath
-                _dmxServerProcess.Start()
-                System.Threading.Thread.Sleep(500)
+    Public Sub pluginStarten(Referenz As PluginManagerLibrary.InterfaceFuerPlugins) Implements PluginManagerLibrary.PluginInterface.pluginStarten
+        If DisablePlugin = False Then
+            Dim serverPath As String = Left(Reflection.Assembly.GetEntryAssembly.Location, InStrRev(System.Reflection.Assembly.GetEntryAssembly.Location, "\")) & _cDMXServerFileName
+            If IO.File.Exists(serverPath) Then
+                If Not Process.GetProcessesByName("DMXServer.exe").Count > 0 Then
+                    _dmxServerProcess = New Process
+                    _dmxServerProcess.StartInfo.FileName = serverPath
+                    _dmxServerProcess.Start()
+                    Threading.Thread.Sleep(500)
+                End If
             End If
+            _dmxServer.StartCommunication("localhost", _cPortNumber)
         End If
-        _dmxServer.StartCommunication("localhost", _cPortNumber)
     End Sub
 
     Public Sub pluginStoppen() Implements PluginManagerLibrary.PluginInterface.pluginStoppen
